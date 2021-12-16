@@ -7,13 +7,13 @@ const maxUser = 50;
 exports.register = async (req, res) => {
   try {
     if (!req.body.name || !req.body.email || !req.body.username) {
-      return res.status(400).send({ message: "all fields required" });
+      return res.status(400).send({ message: "Semua field harus terisi" });
     }
 
     // validation
     const total = await count();
     if (total >= maxUser) {
-      return res.status(403).send({ message: "quota full" });
+      return res.status(403).send({ message: "Kuota peserta telah habis" });
     }
 
     const { email, username } = req.body;
@@ -25,12 +25,12 @@ exports.register = async (req, res) => {
 
     const emailExists = await getUser({ email });
     if (emailExists) {
-      return res.status(400).send({ message: "email already registered" });
+      return res.status(400).send({ message: "Email telah terdaftar" });
     }
 
     const usernameExists = await getUser({ username });
     if (usernameExists) {
-      return res.status(400).send({ message: "username already registered" });
+      return res.status(400).send({ message: "Username telah terdaftar" });
     }
 
     // passed validation
@@ -38,7 +38,7 @@ exports.register = async (req, res) => {
 
     return res
       .status(200)
-      .send({ message: "registration success", data: req.body });
+      .send({ message: "Registrasi berhasil", data: req.body });
   } catch (error) {
     console.log(error);
     return res.status(500).send(ErrInternalServer);

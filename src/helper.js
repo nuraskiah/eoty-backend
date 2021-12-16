@@ -38,13 +38,13 @@ exports.validate = (email, username) => {
   if (!validateEmail(email)) {
     return {
       valid: false,
-      msg: "please provide a valid email",
+      msg: "Email tidak valid",
     };
   }
   if (!validateUsername(username)) {
     return {
       valid: false,
-      msg: "please provide a valid username",
+      msg: "Username tidak valid",
     };
   }
   return {
