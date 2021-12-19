@@ -55,3 +55,25 @@ exports.count = async (req, res) => {
     res.status(500).send(ErrInternalServer);
   }
 };
+
+exports.get = async (req, res) => {
+  try {
+    const { token } = req.query;
+
+    if (!token || token != "wpudesignjamUwU")
+      return res.status(401).send({ message: "unAuthorized" });
+
+    const users = await db().collection("eoty_users").find().toArray();
+    const data = users.map((u, i) => ({
+      no: i + 1,
+      name: u.name,
+      email: u.email,
+      username: u.username,
+    }));
+
+    res.status(200).send(data);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(ErrInternalServer);
+  }
+};
